@@ -73,7 +73,7 @@ bindsym $mod+f fullscreen
 
 # change container layout (stacked, tabbed, toggle split)
 bindsym $mod+s layout stacking
-bindsym $mod+w layout tabbed
+bindsym $mod+t layout tabbed
 bindsym $mod+e layout toggle split
 
 # toggle tiling / floating
@@ -153,7 +153,35 @@ bar {
 
 # own
 
+# audio keys
 bindsym XF86AudioRaiseVolume exec amixer -q set Master 2dB+ unmute 
 #&& notify-send -t 200 "Volume (+2dB): " `amixer get Master | grep -oE "\[[0-9]+\%\]"`
 bindsym XF86AudioLowerVolume exec amixer -q set Master 2dB- unmute
 bindsym XF86AudioMute exec amixer -q -D pulse set Master toggle 
+
+#lockscreen
+exec /usr/bin/xscreensaver -no-splash
+bindsym ctrl+$alt+l exec "/usr/bin/xscreensaver-command -lock"
+
+# icons
+exec "/usr/bin/volumeicon"
+exec "which `nm-applet`"
+
+# background
+exec "/usr/bin/nitrogen --restore"
+
+# Disable Nautilus desktop.
+exec "gconftool-2 -s -t bool /apps/nautilus/preferences/show_desktop false"
+# # Do not let Nautilus set the background image.
+exec "gconftool-2 -s -t bool /desktop/gnome/background/draw_background false"
+# Make Nautilus use spatial mode, should start-up quicker.
+exec "gconftool-2 -s -t bool /apps/nautilus/preferences/always_use_browser false"
+# Make Nautilus show the advanced permissions dialog 
+exec "gconftool-2 -s -t bool /apps/nautilus/preferences/show_advanced_permissions true"
+
+# make sure the keyboard is set tu us
+setxkbmap us
+bindsym ctrl+$mod+$alt+space exec "$HOME/bin/toggle_keyboardlayout.sh"
+
+# password autotype binding
+bindsym $mod+p exec "$HOME/bin/opt/pass/usr/bin/passmenu -t -nb black -nf white -sb black -sf orange -b"
