@@ -1,0 +1,85 @@
+[global]
+    font = "Monospace 8"
+    allow_markup = yes
+    format = "<b>%s %p</b>\n%b"
+
+    sort = yes
+    indicate_hidden = true
+
+    idle_threshold = 120
+    show_age_threshold = 60
+
+    alignment = center
+    geometry = "300x10-20+150"
+    # geometry = "x5"
+    word_wrap = yes
+    ignore_newline = no
+    shrink = no
+
+    sticky_history = no
+    follow = mouse
+
+    padding = 10
+    horizontal_padding = 10
+    separator_height = 2
+    separator_color = frame
+    startup_notification = false
+
+    dmenu = "/usr/bin/dmenu -p dunst: -nb #FFFFFF -nf #000000 -sb #94DBFF -sf #000000"
+    browser = /usr/bin/chromium-browser
+
+
+[frame]
+    width = 1
+    color = "#000000"
+
+[shortcuts]
+    close = ctrl+space
+    close_all = ctrl+shift+space
+    history = ctrl+grave
+    context = ctrl+shift+period
+
+[urgency_low]
+    background = "#404040"
+    foreground = "#CCCCCC"
+    timeout = 5
+
+[urgency_normal]
+    background = "#0E7500"
+    foreground = "#DDDDDD"
+    timeout = 5
+
+[urgency_critical]
+    background = "#dc322f"
+    foreground = "#DDDDDD"
+    timeout = 0
+
+
+
+[libpurple_signed]
+    appname = libpurple
+    summary = *igned*
+    urgency = low
+    timeout = 3
+    background = "#ccff33"
+
+[libpurple_came_back]
+    appname = libpurple
+    summary = "*came*"
+    format = ""
+
+[libpurple_went_away]
+    appname = libpurple
+    summary = "*went*"
+    format = ""
+
+[libpurple_says]
+    appname = libpurple
+    summary = *ays*
+    urgency = critical
+    background = "#ccff33"
+
+[libpurple]
+    appname = libpurple
+    urgency = critical
+    background = "#ccff33"
