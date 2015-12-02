@@ -34,7 +34,7 @@ bindsym $mod+Shift+q kill
 bindsym $alt+F4 kill
 
 # start dmenu (a program launcher)
-bindsym $mod+space exec dmenu_run
+bindsym $mod+space exec dmenu_run -p "run >> "
 bindsym $mod+d exec --no-startup-id i3-dmenu-desktop
 
 # change focus
@@ -108,8 +108,8 @@ bindsym $mod+8 workspace number 8
 bindsym $mod+9 workspace number 9
 bindsym $mod+0 workspace number 10
 
-bindsym $mod+ctrl+semicolon workspace next
-bindsym $mod+ctrl+j workspace prev
+bindsym $mod+$alt+semicolon workspace next
+bindsym $mod+$alt+j workspace prev
 # open a blank new workspace, where ever possible
 bindsym $mod+ctrl+Return exec --no-startup-id ~/.i3/open_empty_workspace.sh
 
@@ -222,3 +222,5 @@ bindsym $mod+ctrl+$alt+semicolon move workspace to output right
 bindsym $mod+ctrl+$alt+k move workspace to output above
 bindsym $mod+ctrl+$alt+l move workspace to output below
 
+# Fix jetbrains MPS code completion windos with this <3
+for_window [class="jetbrains-mps-ce"] border none
