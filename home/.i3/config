@@ -176,10 +176,9 @@ focus_follows_mouse no
 bindsym $mod+n exec i3-input -F 'rename workspace to "%s"' -P 'Rename workspace: '
 
 # audio keys
-bindsym XF86AudioRaiseVolume exec amixer -q set Master 2dB+ unmute 
-#&& notify-send -t 200 "Volume (+2dB): " `amixer get Master | grep -oE "\[[0-9]+\%\]"`
-bindsym XF86AudioLowerVolume exec amixer -q set Master 2dB- unmute
-bindsym XF86AudioMute exec amixer -q -D pulse set Master toggle 
+bindsym XF86AudioRaiseVolume exec amixer -q set Master 2%+ unmute && notify-send -t 1 "Volume (+2dB): " `amixer get Master | grep -oE "\[[0-9]+\%\]" | head -n 1`
+bindsym XF86AudioLowerVolume exec amixer -q set Master 2%- unmute && notify-send -t 1 "Volume (-2dB): " `amixer get Master | grep -oE "\[[0-9]+\%\]" | head -n 1`
+bindsym XF86AudioMute exec amixer -q -D pulse set Master toggle && notify-send -t 1 "Volume (MUTED): " `amixer get Master | grep -oE "(\[(on|off)+\])" | head -n 1` 
 
 # notofications
 exec `which dunst`
@@ -193,7 +192,9 @@ exec "/usr/bin/volumeicon"
 exec "which `nm-applet`"
 
 # background
-exec "/usr/bin/nitrogen --restore"
+exec --no-startup-id "feh --bg-scale --randomize /usr/share/backgrounds/"
+exec --no-startup-id "/usr/bin/nitrogen --restore"
+bindsym $mod+b exec --no-startup-id "feh --bg-scale --randomize /usr/share/backgrounds/"
 
 # Disable Nautilus desktop.
 exec "gconftool-2 -s -t bool /apps/nautilus/preferences/show_desktop false"
@@ -206,7 +207,7 @@ exec "gconftool-2 -s -t bool /apps/nautilus/preferences/show_advanced_permission
 
 # make sure the keyboard is set tu us
 setxkbmap us
-bindsym ctrl+$mod+$alt+space exec "$HOME/bin/toggle_keyboardlayout.sh"
+bindsym ctrl+$mod+$alt+space exec --no-startup-id "$HOME/local/bin/toggle_keyboardlayout.sh"
 
 # password autotype binding
 bindsym $mod+p exec "$HOME/bin/opt/pass/usr/bin/passmenu -t -nb black -nf white -sb black -sf orange -b"
