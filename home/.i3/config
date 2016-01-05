@@ -210,7 +210,7 @@ setxkbmap us
 bindsym ctrl+$mod+$alt+space exec --no-startup-id "$HOME/local/bin/toggle_keyboardlayout.sh"
 
 # password autotype binding
-bindsym $mod+p exec "$HOME/bin/opt/pass/usr/bin/passmenu -t -nb black -nf white -sb black -sf orange -b"
+bindsym $mod+p exec "$HOME/local/bin/passmenu --type -nb black -nf white -sb black -sf orange -b"
 
 # moving to other outputs
 bindsym $mod+x move workspace to output left
