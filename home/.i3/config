@@ -73,7 +73,7 @@ bindsym $mod+h split h
 bindsym $mod+v split v
 
 # enter fullscreen mode for the focused container
-bindsym $mod+shift+f fullscreen
+bindsym $mod+f fullscreen
 
 # change container layout (stacked, tabbed, toggle split)
 bindsym $mod+s layout stacking
@@ -81,7 +81,7 @@ bindsym $mod+t layout tabbed
 bindsym $mod+e layout toggle split
 
 # toggle tiling / floating
-bindsym $mod+f floating toggle
+bindsym $mod+w floating toggle
 
 # so this does not work .. why?
 #bindsym $mod+Button1 floating toggle
@@ -236,4 +236,16 @@ for_window [class="^ID Recognition$"] floating enable
 
 # remote desktop window
 for_window [class="^xfreerdp$"] floating enable
+
+# thunderbird compose message window
+for_window [window_role="conversation"] floating enable, border normal
+for_window [window_role="Msgcompose"] floating enable, border normal
+
+
+for_window [class="Grabbed Image"] floating enable, border normal
+
+# csra screen utils
+for_window [class="^Progress$"] floating enable, border normal
+for_window [class="Csra-on-screen-progress" instance="csra-on-screen-progress$"] floating enable, border normal
+for_window [class="Csra-on-screen-keyboard" instance="csra-on-screen-keyboard$"] floating enable, border normal
 
