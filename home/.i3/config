@@ -182,6 +182,9 @@ bindsym XF86AudioRaiseVolume exec amixer -q set Master 2%+ unmute && notify-send
 bindsym XF86AudioLowerVolume exec amixer -q set Master 2%- unmute && notify-send -t 1 "Volume (-2dB): " `amixer get Master | grep -oE "\[[0-9]+\%\]" | head -n 1`
 bindsym XF86AudioMute exec amixer -q -D pulse set Master toggle && notify-send -t 1 "Volume (MUTED): " `amixer get Master | grep -oE "(\[(on|off)+\])" | head -n 1` 
 
+# xrandr the screen setup
+exec `which xrandr_techfak.sh`
+
 # notofications
 exec `which dunst`
 
@@ -212,7 +215,7 @@ setxkbmap us
 bindsym ctrl+$mod+$alt+space exec --no-startup-id "$HOME/local/bin/toggle_keyboardlayout.sh"
 
 # password autotype binding
-bindsym $mod+p exec "$HOME/local/bin/passmenu --type -nb black -nf white -sb black -sf orange -b"
+bindsym $mod+p exec "$HOME/local/bin/passmenu -t -nb black -nf white -sb black -sf orange -b"
 
 # moving to other outputs
 bindsym $mod+x move workspace to output left
@@ -257,3 +260,5 @@ for_window [class="^Progress$"] floating enable, border normal
 for_window [class="Csra-on-screen-progress" instance="csra-on-screen-progress$"] floating enable, border normal
 for_window [class="Csra-on-screen-keyboard" instance="csra-on-screen-keyboard$"] floating enable, border normal
 
+# vdemo
+for_window [class="Vdemo2_controller.tcl" title="vdemo2_controller.tcl"] floating enable, border normal
