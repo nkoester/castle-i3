@@ -261,4 +261,14 @@ for_window [class="Csra-on-screen-progress" instance="csra-on-screen-progress$"]
 for_window [class="Csra-on-screen-keyboard" instance="csra-on-screen-keyboard$"] floating enable, border normal
 
 # vdemo
+for_window [class="^XTerm$" title="^.*detach by [C-a d].*$"] floating enable, border normal; resize grow height 400px; resize grow width 600px; #move down 100px 202px
 for_window [class="Vdemo2_controller.tcl" title="vdemo2_controller.tcl"] floating enable, border normal
+#for_window [class="^XTerm$"] floating enable, border normal
+
+# cssh
+for_window [class="^Cssh$"] floating enable, border normal
+
+for_window [title="ID Recognition State"] floating enable, border normal
+for_window [title="ID Recognition"] floating enable, border normal
+
+
