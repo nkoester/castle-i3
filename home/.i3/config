@@ -173,6 +173,9 @@ bar {
 # disable auto focus
 focus_follows_mouse no
 
+# no borders on the eges of the screen
+hide_edge_borders both 
+
 workspace_auto_back_and_forth yes
 
 bindsym $mod+n exec i3-input -F 'rename workspace to "%s"' -P 'Rename workspace: '
@@ -210,7 +213,7 @@ exec "gconftool-2 -s -t bool /apps/nautilus/preferences/always_use_browser false
 # Make Nautilus show the advanced permissions dialog 
 exec "gconftool-2 -s -t bool /apps/nautilus/preferences/show_advanced_permissions true"
 
-# make sure the keyboard is set tu us
+# make sure the keyboard is set to us
 setxkbmap us
 bindsym ctrl+$mod+$alt+space exec --no-startup-id "$HOME/local/bin/toggle_keyboardlayout.sh"
 
