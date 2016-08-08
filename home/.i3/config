@@ -213,6 +213,10 @@ exec "gconftool-2 -s -t bool /apps/nautilus/preferences/always_use_browser false
 # Make Nautilus show the advanced permissions dialog 
 exec "gconftool-2 -s -t bool /apps/nautilus/preferences/show_advanced_permissions true"
 
+# setup the screens
+exec "xrandr_techfak.sh"
+exec "nitrogen --restore"
+
 # make sure the keyboard is set to us
 setxkbmap us
 bindsym ctrl+$mod+$alt+space exec --no-startup-id "$HOME/local/bin/toggle_keyboardlayout.sh"
