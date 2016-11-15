@@ -145,7 +145,7 @@ mode "resize" {
         bindsym k resize grow height 20 px or 20 ppt
         bindsym l resize shrink height 20 px or 20 ppt
         bindsym semicolon resize grow width 20 px or 20 ppt
-        
+
         bindsym $alt+j resize shrink width 2 px or 2 ppt
         bindsym $alt+k resize grow height 2 px or 2 ppt
         bindsym $alt+l resize shrink height 2 px or 2 ppt
@@ -175,16 +175,24 @@ bar {
 focus_follows_mouse no
 
 # no borders on the eges of the screen
-hide_edge_borders both 
+hide_edge_borders both
 
 workspace_auto_back_and_forth yes
 
 bindsym $mod+n exec i3-input -F 'rename workspace to "%s"' -P 'Rename workspace: '
 
 # audio keys
-bindsym XF86AudioRaiseVolume exec amixer -q set Master 2%+ unmute && notify-send -t 1 "Volume (+2dB): " `amixer get Master | grep -oE "\[[0-9]+\%\]" | head -n 1`
-bindsym XF86AudioLowerVolume exec amixer -q set Master 2%- unmute && notify-send -t 1 "Volume (-2dB): " `amixer get Master | grep -oE "\[[0-9]+\%\]" | head -n 1`
-bindsym XF86AudioMute exec amixer -q -D pulse set Master toggle && notify-send -t 1 "Volume (MUTED): " `amixer get Master | grep -oE "(\[(on|off)+\])" | head -n 1` 
+#bindsym XF86AudioRaiseVolume exec amixer -q set Master 2%+ unmute && notify-send -t 1 "Volume (+2dB): " `amixer get Master | grep -oE "\[[0-9]+\%\]" | head -n 1`
+#bindsym XF86AudioLowerVolume exec amixer -q set Master 2%- unmute && notify-send -t 1 "Volume (-2dB): " `amixer get Master | grep -oE "\[[0-9]+\%\]" | head -n 1`
+#bindsym XF86AudioMute exec amixer -q -D pulse set Master toggle && notify-send -t 1 "Volume (MUTED): " `amixer get Master | grep -oE "(\[(on|off)+\])" | head -n 1`
+
+
+bindsym XF86AudioRaiseVolume exec amixer -q set Master 2%+ unmute && notify-send.sh --replace=1 -t 1 "Volume (+2dB): " `amixer get Master | grep -oE "\[[0-9]+\%\]" | head -n 1`
+bindsym XF86AudioLowerVolume exec amixer -q set Master 2%- unmute && notify-send.sh --replace=1 -t 1 "Volume (-2dB): " `amixer get Master | grep -oE "\[[0-9]+\%\]" | head -n 1`
+bindsym XF86AudioMute exec amixer -q -D pulse set Master toggle && notify-send.sh --replace=1 -t 1 "Volume (MUTED): " `amixer get Master | grep -oE "(\[(on|off)+\])" | head -n 1`
+
+bindsym $alt+$mod+ctrl+0 exec /home/nkoester/.screenlayout/office2.sh
+bindsym $alt+$mod+ctrl+9 exec /home/nkoester/.screenlayout/mobile2.sh
 
 # xrandr the screen setup
 exec `which xrandr_techfak.sh`
@@ -193,7 +201,8 @@ exec `which xrandr_techfak.sh`
 exec `which dunst`
 
 #lockscreen
-exec /usr/bin/xscreensaver -no-splash
+exec "/usr/bin/xscreensaver -no-splash"
+exec "xss-lock -- xscreensaver-command -lock"
 bindsym ctrl+$alt+l exec "/usr/bin/xscreensaver-command -lock"
 
 # icons
@@ -211,7 +220,7 @@ exec "gconftool-2 -s -t bool /apps/nautilus/preferences/show_desktop false"
 exec "gconftool-2 -s -t bool /desktop/gnome/background/draw_background false"
 # Make Nautilus use spatial mode, should start-up quicker.
 exec "gconftool-2 -s -t bool /apps/nautilus/preferences/always_use_browser false"
-# Make Nautilus show the advanced permissions dialog 
+# Make Nautilus show the advanced permissions dialog
 exec "gconftool-2 -s -t bool /apps/nautilus/preferences/show_advanced_permissions true"
 
 # setup the screens
@@ -225,19 +234,45 @@ bindsym ctrl+$mod+$alt+space exec --no-startup-id "$HOME/local/bin/toggle_keyboa
 # password autotype binding
 bindsym $mod+p exec "$HOME/local/bin/passmenu --type -nb black -nf white -sb black -sf orange -b"
 
+###
+# MULTI SCREEN SETTINGS
+###
+
 # moving to other outputs
-bindsym $mod+x move workspace to output left
+bindsym $mod+z move workspace to output right
 
 bindsym $mod+ctrl+$alt+j move workspace to output left
 bindsym $mod+ctrl+$alt+semicolon move workspace to output right
 bindsym $mod+ctrl+$alt+k move workspace to output above
 bindsym $mod+ctrl+$alt+l move workspace to output below
 
+## Manual management of external displays
+# Set the shortcuts and what they do
+set $mode_display Screen Setup: (m) mobile (o) office, (h) HDMI ON, (y) HDMI OFF, (v) VGA ON, (f) VGA OFF
+mode "$mode_display" {
+    bindsym m exec --no-startup-id /home/nkoester/local/bin/xrandr_mobile.sh, mode "default"
+    bindsym o exec --no-startup-id /home/nkoester/local/bin/xrandr_office.sh, mode "default"
+    bindsym h exec --no-startup-id xrandr --output HDMI1 --auto --right-of LVDS1 --output HDMI-1 --auto --right-of LVDS1, mode "default"
+    bindsym y exec --no-startup-id xrandr --output HDMI1 --off --output HDMI-1 --off, mode "default"
+    bindsym v exec --no-startup-id xrandr --output VGA1 --auto --right-of LVDS1, mode "default"
+    bindsym f exec --no-startup-id xrandr --output VGA1 --off, mode "default"
+
+    # back to normal: Enter or Escape
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
+
+
+# Declare here the shortcut to bring the display selection menu
+bindsym $mod+x mode "$mode_display"
 # change focus between outputs
 bindsym $mod+ctrl+j focus output left
 bindsym $mod+ctrl+semicolon focus output right
 bindsym $mod+ctrl+k focus output above
 bindsym $mod+ctrl+l focus output below
+
+bindsym XF86MonBrightnessDown exec /home/nkoester/local/bin/bright_ctrl -
+bindsym XF86MonBrightnessUp   exec /home/nkoester/local/bin/bright_ctrl +
 
 # window-specific rules
 for_window [window_role="pop-up"] floating enable
@@ -279,4 +314,9 @@ for_window [class="^Cssh$"] floating enable, border normal
 for_window [title="ID Recognition State"] floating enable, border normal
 for_window [title="ID Recognition"] floating enable, border normal
 
+
+# on login ...
+exec chromium
+exec --no-startup-id i3-msg 'workspace 1: mail; exec /usr/bin/thunderbird'
+exec --no-startup-id i3-msg 'workspace 2: www; exec /usr/bin/chromium'
 
