@@ -79,7 +79,7 @@ status.register("network",
 # Note: requires both netifaces and basiciw (for essid and quality)
 status.register("network",
     interface="wlp1s0",
-    format_up="📶 {essid} {quality:02.0f}% ⮉{bytes_recv:5.0f} KB/s ⮋{bytes_sent:5.0f} KB/s",)
+    format_up="📶 {essid} {quality:02.0f}% ⮋{bytes_recv:5.0f} KB/s ⮉{bytes_sent:5.0f} KB/s",)
 
 
 status.run()
