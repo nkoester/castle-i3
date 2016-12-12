@@ -166,7 +166,7 @@ bindsym $mod+r mode "resize"
 bar {
         position top
         #status_command i3status
-        status_command python3  /home/nkoester/local/bin/i3pystatusconfig.py
+        status_command python3  ~/.i3/i3pystatusconfig.py
         position                top
         workspace_buttons       yes
         #strip_workspace_numbers yes
