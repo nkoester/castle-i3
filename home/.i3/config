@@ -97,17 +97,29 @@ bindsym $mod+a focus parent
 # focus the child container
 bindsym $mod+d focus child
 
+# workspaces
+set $workspace_1       "1:mail"
+set $workspace_2       "2:www"
+set $workspace_3       "3:term"
+set $workspace_4       "4:ide"
+set $workspace_5       "5"
+set $workspace_6       "6:log"
+set $workspace_7       "7"
+set $workspace_8       "8"
+set $workspace_9       "9:www"
+set $workspace_10      "10:stat"
+
 # switch to workspace
-bindsym $mod+1 workspace number 1
-bindsym $mod+2 workspace number 2
-bindsym $mod+3 workspace number 3
-bindsym $mod+4 workspace number 4
-bindsym $mod+5 workspace number 5
-bindsym $mod+6 workspace number 6
-bindsym $mod+7 workspace number 7
-bindsym $mod+8 workspace number 8
-bindsym $mod+9 workspace number 9
-bindsym $mod+0 workspace number 10
+bindsym $mod+1 workspace $workspace_1
+bindsym $mod+2 workspace $workspace_2
+bindsym $mod+3 workspace $workspace_3
+bindsym $mod+4 workspace $workspace_4
+bindsym $mod+5 workspace $workspace_5
+bindsym $mod+6 workspace $workspace_6
+bindsym $mod+7 workspace $workspace_7
+bindsym $mod+8 workspace $workspace_8
+bindsym $mod+9 workspace $workspace_9
+bindsym $mod+0 workspace $workspace_10
 
 bindsym $mod+$alt+semicolon workspace next
 bindsym $mod+$alt+j workspace prev
@@ -115,16 +127,16 @@ bindsym $mod+$alt+j workspace prev
 bindsym $mod+ctrl+Return exec --no-startup-id ~/.i3/open_empty_workspace.sh
 
 # move focused container to workspace
-bindsym $mod+Shift+1 move container to workspace number 1
-bindsym $mod+Shift+2 move container to workspace number 2
-bindsym $mod+Shift+3 move container to workspace number 3
-bindsym $mod+Shift+4 move container to workspace number 4
-bindsym $mod+Shift+5 move container to workspace number 5
-bindsym $mod+Shift+6 move container to workspace number 6
-bindsym $mod+Shift+7 move container to workspace number 7
-bindsym $mod+Shift+8 move container to workspace number 8
-bindsym $mod+Shift+9 move container to workspace number 9
-bindsym $mod+Shift+0 move container to workspace number 10
+bindsym $mod+Shift+1 move container to workspace $workspace_1
+bindsym $mod+Shift+2 move container to workspace $workspace_2
+bindsym $mod+Shift+3 move container to workspace $workspace_3
+bindsym $mod+Shift+4 move container to workspace $workspace_4
+bindsym $mod+Shift+5 move container to workspace $workspace_5
+bindsym $mod+Shift+6 move container to workspace $workspace_6
+bindsym $mod+Shift+7 move container to workspace $workspace_7
+bindsym $mod+Shift+8 move container to workspace $workspace_8
+bindsym $mod+Shift+9 move container to workspace $workspace_9
+bindsym $mod+Shift+0 move container to workspace $workspace_10
 
 # reload the configuration file
 bindsym $mod+Shift+c reload
@@ -267,7 +279,7 @@ bindsym $mod+ctrl+$alt+l move workspace to output below
 set $mode_display Screen Setup: (m) mobile (o) office, (h) HDMI ON, (y) HDMI OFF, (v) VGA ON, (f) VGA OFF
 mode "$mode_display" {
     bindsym m exec --no-startup-id /home/nkoester/local/bin/xrandr_mobile.sh, mode "default"
-    bindsym o exec --no-startup-id /home/nkoester/local/bin/xrandr_office.sh, mode "default"
+    bindsym o exec --no-startup-id /home/nkoester/local/bin/xrandr_office_dp.sh, mode "default"
     bindsym h exec --no-startup-id xrandr --output HDMI1 --auto --right-of LVDS1 --output HDMI-1 --auto --right-of LVDS1, mode "default"
     bindsym y exec --no-startup-id xrandr --output HDMI1 --off --output HDMI-1 --off, mode "default"
     bindsym v exec --no-startup-id xrandr --output VGA1 --auto --right-of LVDS1, mode "default"
@@ -333,6 +345,6 @@ for_window [title="ID Recognition"] floating enable, border normal
 
 # on login ...
 exec chromium
-exec --no-startup-id i3-msg 'workspace 1: mail; exec /usr/bin/thunderbird'
-exec --no-startup-id i3-msg 'workspace 2: www; exec /usr/bin/chromium'
+exec --no-startup-id i3-msg 'workspace 1:mail; exec /usr/bin/thunderbird'
+exec --no-startup-id i3-msg 'workspace 2:www; exec /usr/bin/chromium'
 

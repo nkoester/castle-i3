@@ -81,5 +81,20 @@ status.register("network",
     interface="wlp1s0",
     format_up="📶 {essid} {quality:02.0f}% ⮋{bytes_recv:5.0f} KB/s ⮉{bytes_sent:5.0f} KB/s",)
 
+status.register("runwatch",
+    path="/tmp/vm-deb8",
+    name="Deb8",
+    format_up="Debian 8 VM RUNNING",
+    format_down="",
+    color_up="#FF0000",
+    color_down="#00FF00")
+
+status.register("runwatch",
+    path="/tmp/vm-win7",
+    name="Win7",
+    format_up="Win 7 VM RUNNING",
+    format_down="",
+    color_up="#FF0000",
+    color_down="#00FF00")
 
 status.run()
