@@ -236,11 +236,14 @@ bindsym ctrl+$alt+l exec "/usr/bin/xscreensaver-command -lock"
 exec "/usr/bin/volumeicon"
 exec "which `nm-applet`"
 exec "which `fluxgui`"
+exec "/usr/bin/compton"
 
 # background
-exec --no-startup-id "feh --bg-scale --randomize /usr/share/backgrounds/"
-exec --no-startup-id "/usr/bin/nitrogen --restore"
-bindsym $mod+b exec --no-startup-id "feh --bg-scale --randomize /usr/share/backgrounds/"
+#exec --no-startup-id "feh --bg-scale --randomize /usr/share/backgrounds/"
+exec --no-startup-id "feh --bg-max --randomize /vol/wallpaper/"
+#bindsym $mod+b exec --no-startup-id "feh --bg-scale --randomize /usr/share/backgrounds/"
+#bindsym $mod+b exec --no-startup-id "feh --bg-max --randomize /vol/wallpaper/unsplash/"
+bindsym $mod+b exec --no-startup-id "feh --bg-fill --randomize /vol/wallpaper/unsplash/"
 
 # Disable Nautilus desktop.
 exec "gconftool-2 -s -t bool /apps/nautilus/preferences/show_desktop false"
@@ -250,10 +253,6 @@ exec "gconftool-2 -s -t bool /desktop/gnome/background/draw_background false"
 exec "gconftool-2 -s -t bool /apps/nautilus/preferences/always_use_browser false"
 # Make Nautilus show the advanced permissions dialog
 exec "gconftool-2 -s -t bool /apps/nautilus/preferences/show_advanced_permissions true"
-
-# setup the screens
-exec "xrandr_techfak.sh"
-exec "nitrogen --restore"
 
 # make sure the keyboard is set to us
 setxkbmap us
@@ -278,8 +277,8 @@ bindsym $mod+ctrl+$alt+l move workspace to output below
 # Set the shortcuts and what they do
 set $mode_display Screen Setup: (m) mobile (o) office, (h) HDMI ON, (y) HDMI OFF, (v) VGA ON, (f) VGA OFF
 mode "$mode_display" {
-    bindsym m exec --no-startup-id /home/nkoester/local/bin/xrandr_mobile.sh, mode "default"
-    bindsym o exec --no-startup-id /home/nkoester/local/bin/xrandr_office_dp.sh, mode "default"
+    bindsym m exec --no-startup-id /home/nkoester/local/bin/xrandr_mobile.sh&&/home/nkoester/local/bin/bright_ctrl 201&& feh --bg-max --randomize /vol/wallpaper/, mode "default"
+    bindsym o exec --no-startup-id /home/nkoester/local/bin/xrandr_office_dp.sh&&/home/nkoester/local/bin/bright_ctrl 937&& feh --bg-max --randomize /vol/wallpaper/, mode "default"
     bindsym h exec --no-startup-id xrandr --output HDMI1 --auto --right-of LVDS1 --output HDMI-1 --auto --right-of LVDS1, mode "default"
     bindsym y exec --no-startup-id xrandr --output HDMI1 --off --output HDMI-1 --off, mode "default"
     bindsym v exec --no-startup-id xrandr --output VGA1 --auto --right-of LVDS1, mode "default"
@@ -342,9 +341,19 @@ for_window [class="^Cssh$"] floating enable, border normal
 for_window [title="ID Recognition State"] floating enable, border normal
 for_window [title="ID Recognition"] floating enable, border normal
 
+# VMs
+for_window [class="Spicy"] border pixel 1
+
+# wine
+for_window [class="Wine" title="Default - Wine desktop"] floating enable, border normal
+
+for_window [class="de.citec.csra.mapfx3.MapLoader"] floating enable, border normal
 
 # on login ...
 exec chromium
 exec --no-startup-id i3-msg 'workspace 1:mail; exec /usr/bin/thunderbird'
 exec --no-startup-id i3-msg 'workspace 2:www; exec /usr/bin/chromium'
+exec --no-startup-id i3-msg 'workspace 3:term; exec termite; exec termite'
+exec --np-startup-id i3-msg 'workspace 10:stat; exec psensor'
+exec --np-startup-id i3-msg 'workspace 10:stat; exec termite -c "dmesg -Twx"'
 
