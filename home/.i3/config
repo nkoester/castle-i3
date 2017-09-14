@@ -255,7 +255,8 @@ exec "gconftool-2 -s -t bool /apps/nautilus/preferences/always_use_browser false
 exec "gconftool-2 -s -t bool /apps/nautilus/preferences/show_advanced_permissions true"
 
 # make sure the keyboard is set to us
-setxkbmap us
+exec "setxkbmap us"
+
 bindsym ctrl+$mod+$alt+space exec --no-startup-id "$HOME/local/bin/toggle_keyboardlayout.sh"
 
 # password autotype binding
@@ -300,6 +301,10 @@ bindsym $mod+ctrl+l focus output below
 
 bindsym XF86MonBrightnessDown exec /home/nkoester/local/bin/bright_ctrl -
 bindsym XF86MonBrightnessUp   exec /home/nkoester/local/bin/bright_ctrl +
+
+# pinentry gpg
+for_window [class="Pinentry"] floating enable, border none
+
 
 # window-specific rules
 for_window [window_role="pop-up"] floating enable

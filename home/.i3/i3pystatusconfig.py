@@ -10,15 +10,15 @@ status.register("clock",
     format="⏲%a %-d %b %H:%M",
 )
 
-status.register("weather",
-    format='{icon} {current_temp}{temp_unit}',
-    colorize=True,
-    backend=weathercom.Weathercom(
-        location_code="GMXX6175",
-        units="metric",
-    ),
-    on_leftclick= ["chromium http://www.weather.com/de-DE/wetter/heute/l/GMXX6175"]
-)
+#status.register("weather",
+#    format='{icon} {current_temp}{temp_unit}',
+#    colorize=True,
+#    backend=weathercom.Weathercom(
+#        location_code="GMXX6175",
+#        units="metric",
+#    ),
+#    on_leftclick= ["chromium http://www.weather.com/de-DE/wetter/heute/l/GMXX6175"]
+#)
 
 status.register("battery",
     format="{status} {percentage:.2f}% {remaining:%E%hh:%Mm}",
@@ -73,7 +73,7 @@ status.register("disk",
 status.register("network",
     interface="enp0s31f6",
     #format_up="〰{v4cidr}",
-    format_up="🖧 {v4cidr} ⮉{bytes_recv:5.0f} KB/s ⮋{bytes_sent:5.0f} KB/s",
+    format_up="🖧 {v4cidr} ⮋{bytes_recv:5.0f} KB/s ⮉{bytes_sent:5.0f} KB/s",
 )
 
 # Note: requires both netifaces and basiciw (for essid and quality)
@@ -85,6 +85,22 @@ status.register("runwatch",
     path="/tmp/vm-deb8",
     name="Deb8",
     format_up="Debian 8 VM RUNNING",
+    format_down="",
+    color_up="#FF0000",
+    color_down="#00FF00")
+
+status.register("runwatch",
+    path="/tmp/vm-ubu16",
+    name="Ubu16",
+    format_up="Ubuntu xenial VM RUNNING",
+    format_down="",
+    color_up="#FF0000",
+    color_down="#00FF00")
+
+status.register("runwatch",
+    path="/tmp/vm-ubu14",
+    name="Ubu14",
+    format_up="Ubuntu trusty VM RUNNING",
     format_down="",
     color_up="#FF0000",
     color_down="#00FF00")

@@ -2,36 +2,27 @@
     font = "Monospace 8"
     allow_markup = yes
     format = "<b>%s %p</b>\n%b"
-
     sort = yes
     indicate_hidden = true
-
-    idle_threshold = 120
-    show_age_threshold = 60
-
-    alignment = center
-    geometry = "400x10-20+150"
     # geometry = "x5"
-    word_wrap = yes
-    ignore_newline = no
-    shrink = no
-
+    idle_threshold = 0
+    geometry = "300x5-20+25"
+    alignment = center
+    show_age_threshold = 60
     sticky_history = no
     follow = mouse
-
+    word_wrap = yes
+    separator_height = 2
     padding = 10
     horizontal_padding = 10
-    separator_height = 2
     separator_color = frame
-    startup_notification = false
-
+    startup_notification = true
     dmenu = "/usr/bin/dmenu -p dunst: -nb #FFFFFF -nf #000000 -sb #94DBFF -sf #000000"
-    browser = /usr/bin/chromium-browser
+    browser = /home/knopwob/bin/url_dispatcher
 
-    icon_folders =/usr/share/icons/gnome/32x32/status/
 
 [frame]
-    width = 1
+    width = 3
     color = "#000000"
 
 [shortcuts]
@@ -41,20 +32,19 @@
     context = ctrl+shift+period
 
 [urgency_low]
-    background = "#404040"
-    foreground = "#CCCCCC"
-    timeout = 5
+    background = "#ffffff"
+    foreground = "#000000"
+    timeout = 30
 
 [urgency_normal]
-    background = "#0E7500"
-    foreground = "#DDDDDD"
-    timeout = 5
+    background = "#94DBFF"
+    foreground = "#000000"
+    timeout = 45
 
 [urgency_critical]
-    background = "#dc322f"
-    foreground = "#DDDDDD"
+    background = "#ff9999"
+    foreground = "#000000"
     timeout = 0
-
 
 
 [libpurple_signed]
@@ -84,3 +74,13 @@
     appname = libpurple
     urgency = critical
     background = "#ccff33"
+
+[dunst-sum]
+    appname = gmailnotify.py
+    summary = "*[dD]unst*"
+    urgency = critical
+
+[dunst-body]
+    appname = gmailnotify.py
+    body = "*[dD]unst*"
+    urgency = critical
