@@ -51,7 +51,8 @@ status.register("cpu_usage_graph",
 
 # Shows your CPU temperature, if you have a Intel CPU
 status.register("temp",
-    format="{temp:.0f}°C",)
+    format="{temp:.0f}°C",
+    file="/sys/class/thermal/thermal_zone4/temp")
 
 #status.register("temp",
 #    color="#F1AF5F",

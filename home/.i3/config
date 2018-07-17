@@ -35,7 +35,10 @@ bindsym $alt+F4 kill
 bindsym $mod+q kill
 
 # start dmenu (a program launcher)
-bindsym $mod+space exec dmenu_run -p "run >> "
+#bindsym $mod+space exec dmenu_run -p "run >> "
+bindsym $mod+space exec rofi -show run
+bindsym $mod+s exec rofi -show ssh
+bindsym Ctrl+Shift+Tab exec rofi -show window
 #bindsym $mod+d exec --no-startup-id i3-dmenu-desktop
 
 # change focus
@@ -77,7 +80,8 @@ bindsym $mod+v split v
 bindsym $mod+f fullscreen
 
 # change container layout (stacked, tabbed, toggle split)
-bindsym $mod+s layout stacking
+# not really used ...
+# bindsym $mod+s layout stacking
 bindsym $mod+t layout tabbed
 bindsym $mod+e layout toggle split
 
@@ -143,7 +147,8 @@ bindsym $mod+Shift+c reload
 # restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
 bindsym $mod+Shift+r restart
 # exit i3 (logs you out of your X session)
-bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'"
+#bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'"
+bindsym $mod+Shift+e exec sh -c '[ $(echo -e "NO\nYES" | dmenu -sb "#ff6600" -i -p "Really exit i3 X session?") = "YES" ] && i3-msg exit'
 
 # resize window (you can also use the mouse for that)
 mode "resize" {
@@ -172,25 +177,26 @@ bindsym $mod+r mode "resize"
 
 # own
 
+exec_always --no-startup-id $HOME/.i3/launchpolybar.sh
 
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)
-bar {
-        position top
-        #status_command i3status
-        status_command python3  ~/.i3/i3pystatusconfig.py
-        position                top
-        workspace_buttons       yes
-        #strip_workspace_numbers yes
-        #separator_symbol "|"
-        colors {
-            #separator #660000
-			focused_workspace  #007030 #007030 #ffffff
-            active_workspace   #555555 #555555 #ffffff
-            inactive_workspace #000000 #000000 #888888
-            urgent_workspace   #2f343a #900000 #ffffff
-        }
-}
+# bar {
+#         position top
+#         #status_command i3status
+#         #status_command python3  ~/.i3/i3pystatusconfig.py
+#         position                top
+#         workspace_buttons       yes
+#         #strip_workspace_numbers yes
+#         #separator_symbol "|"
+#         colors {
+#             #separator #660000
+#             focused_workspace  #007030 #007030 #ffffff
+#             active_workspace   #555555 #555555 #ffffff
+#             inactive_workspace #000000 #000000 #888888
+#             urgent_workspace   #2f343a #900000 #ffffff
+#         }
+# }
 
 #colors:                border  backgr. text    indicator
 client.focused          #007030 #007030 #ffffff #2b2b2b
@@ -200,6 +206,7 @@ client.urgent           #900000 #900000 #ffffff #2b2b2b
 
 # disable auto focus
 focus_follows_mouse no
+mouse_warping none
 
 # no borders on the eges of the screen
 hide_edge_borders both
@@ -236,7 +243,7 @@ bindsym ctrl+$alt+l exec "/usr/bin/xscreensaver-command -lock"
 exec "/usr/bin/volumeicon"
 exec "which `nm-applet`"
 exec "which `fluxgui`"
-exec "/usr/bin/compton"
+exec "/usr/bin/compton -CG --config /home/nkoester/.i3/compton.conf"
 
 # background
 #exec --no-startup-id "feh --bg-scale --randomize /usr/share/backgrounds/"
@@ -276,11 +283,12 @@ bindsym $mod+ctrl+$alt+l move workspace to output below
 
 ## Manual management of external displays
 # Set the shortcuts and what they do
-set $mode_display Screen Setup: (m) mobile (o) office, (h) HDMI ON, (y) HDMI OFF, (v) VGA ON, (f) VGA OFF
+set $mode_display Screen Setup: (m) mobile, (o) office, (c) csra, (h) HDMI ON, (y) HDMI OFF, (v) VGA ON, (f) VGA OFF
 mode "$mode_display" {
-    bindsym m exec --no-startup-id /home/nkoester/local/bin/xrandr_mobile.sh&&/home/nkoester/local/bin/bright_ctrl 201&& feh --bg-max --randomize /vol/wallpaper/, mode "default"
-    bindsym o exec --no-startup-id /home/nkoester/local/bin/xrandr_office_dp.sh&&/home/nkoester/local/bin/bright_ctrl 937&& feh --bg-max --randomize /vol/wallpaper/, mode "default"
-    bindsym h exec --no-startup-id xrandr --output HDMI1 --auto --right-of LVDS1 --output HDMI-1 --auto --right-of LVDS1, mode "default"
+    bindsym m exec --no-startup-id /home/nkoester/local/bin/xrandr_mobile.sh&&/home/nkoester/local/bin/bright_ctrl 201&& feh --bg-max --randomize /vol/wallpaper/ && /home/nkoester/.i3/launchpolybar.sh, mode "default"
+    bindsym o exec --no-startup-id /home/nkoester/local/bin/xrandr_office_dp.sh&&/home/nkoester/local/bin/bright_ctrl 937&& feh --bg-max --randomize /vol/wallpaper/ && /home/nkoester/.i3/launchpolybar.sh, mode "default"
+    bindsym c exec --no-startup-id /home/nkoester/local/bin/xrandr_csra.sh&&/home/nkoester/local/bin/bright_ctrl 937&& feh --bg-max --randomize /vol/wallpaper/ && /home/nkoester/.i3/launchpolybar.sh, mode "default"
+    bindsym h exec --no-startup-id xrandr --output HDMI1 --auto --right-of LVDS1 --output HDMI-1 --auto --right-of LVDS1 && /home/nkoester/.i3/launchpolybar.sh, mode "default"
     bindsym y exec --no-startup-id xrandr --output HDMI1 --off --output HDMI-1 --off, mode "default"
     bindsym v exec --no-startup-id xrandr --output VGA1 --auto --right-of LVDS1, mode "default"
     bindsym f exec --no-startup-id xrandr --output VGA1 --off, mode "default"
@@ -313,9 +321,12 @@ for_window [class="^XCalc$"] floating enable
 for_window [class="^Galculator$"] floating enable
 for_window [class="^Steam$"] floating enable; border none
 
+# gnome calc
+for_window [class="^Gnome-calculator$"] floating enable; border none
+
 # Fix jetbrains MPS code completion windos with this <3
 # for_window [class="jetbrains-mps-ce"] border none
-for_window [title="win\d"] border none
+#for_window [title="win\d"] border none
 
 # person id windows
 for_window [class="^ID Recognition$"] floating enable
@@ -351,14 +362,14 @@ for_window [class="Spicy"] border pixel 1
 
 # wine
 for_window [class="Wine" title="Default - Wine desktop"] floating enable, border normal
+for_window [class="Wine" title="wine"] floating enable, border normal
 
 for_window [class="de.citec.csra.mapfx3.MapLoader"] floating enable, border normal
 
 # on login ...
-exec chromium
 exec --no-startup-id i3-msg 'workspace 1:mail; exec /usr/bin/thunderbird'
-exec --no-startup-id i3-msg 'workspace 2:www; exec /usr/bin/chromium'
-exec --no-startup-id i3-msg 'workspace 3:term; exec termite; exec termite'
+exec --no-startup-id i3-msg 'workspace 2:www; exec /usr/bin/firefox'
+exec --no-startup-id i3-msg 'workspace 3:term; exec termite;'
 exec --np-startup-id i3-msg 'workspace 10:stat; exec psensor'
-exec --np-startup-id i3-msg 'workspace 10:stat; exec termite -c "dmesg -Twx"'
+exec --np-startup-id i3-msg 'workspace 10:stat; exec termite -e "dmesg -Twx"'
 
