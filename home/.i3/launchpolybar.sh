@@ -21,7 +21,7 @@ do
         then
             bar="laptop"
         else
-            bar="laptop-mobile"
+            bar="general"
         fi
     fi
 

@@ -199,10 +199,37 @@ exec_always --no-startup-id $HOME/.i3/launchpolybar.sh
 # }
 
 #colors:                border  backgr. text    indicator
-client.focused          #007030 #007030 #ffffff #2b2b2b
-client.focused_inactive #888888 #2b2b2b #ffffff #2b2b2b
-client.unfocused        #888888 #2b2b2b #ffffff #2b2b2b
-client.urgent           #900000 #900000 #ffffff #2b2b2b
+#client.focused          #007030 #007030 #ffffff #2b2b2b
+#client.focused_inactive #888888 #2b2b2b #ffffff #2b2b2b
+#client.unfocused        #888888 #2b2b2b #ffffff #2b2b2b
+#client.urgent           #900000 #900000 #ffffff #2b2b2b
+
+
+# Hybrid colors
+set $back               #1d1F21
+set $black              #282A2E
+set $grey               #373B41
+set $lightergrey          #a9aeb2
+set $lightgrey          #707880
+set $white              #C5C8C6
+set $yellow             #F0C674
+set $red                #CC6666
+set $darkred            #A54242
+set $green              #B5BD56
+set $greennew           #dbdfad
+
+#class                  border      backgr.     text        split
+client.focused          $greennew   $green      $black      $red
+client.focused_inactive $grey       $grey       $lightgrey  $grey
+client.unfocused        $lightgrey  $grey       $lightergrey  $grey
+client.urgent           $red        $red        $black      $red
+client.background       $back
+
+
+client.placeholder      #000000 #0c0c0c #ffffff #000000   #0c0c0c
+#client.background       #ffffff
+
+
 
 # disable auto focus
 focus_follows_mouse no
@@ -309,6 +336,14 @@ bindsym $mod+ctrl+l focus output below
 
 bindsym XF86MonBrightnessDown exec /home/nkoester/local/bin/bright_ctrl -
 bindsym XF86MonBrightnessUp   exec /home/nkoester/local/bin/bright_ctrl +
+
+
+# i3 gaps
+for_window [class="^.*"] border pixel 2
+gaps inner 10
+gaps outer 0
+#smart_borders on
+
 
 # pinentry gpg
 for_window [class="Pinentry"] floating enable, border none
