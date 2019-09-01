@@ -6,7 +6,7 @@ from i3pystatus.weather import weathercom
 status = Status(standalone=True)
 
 status.register("clock",
-    color="#93A8D8",
+    color="#FFa500",
     format="⏲%a %-d %b %H:%M",
 )
 
@@ -20,15 +20,15 @@ status.register("clock",
 #    on_leftclick= ["chromium http://www.weather.com/de-DE/wetter/heute/l/GMXX6175"]
 #)
 
-status.register("battery",
-    format="{status} {percentage:.2f}% {remaining:%E%hh:%Mm}",
-    alert=True,
-    alert_percentage=10,
-    status={
-        "DIS": "🔋",
-        "CHR": "🔌",
-        "FULL": "🗸",
-    },)
+#status.register("battery",
+#    format="{status} {percentage:.2f}% {remaining:%E%hh:%Mm}",
+#    alert=True,
+#    alert_percentage=10,
+#    status={
+#        "DIS": "🔋",
+#        "CHR": "🔌",
+#        "FULL": "🗸",
+#    },)
 
 status.register("mem",
     color="#E0DA37",
@@ -44,8 +44,8 @@ status.register("cpu_usage",
 status.register("cpu_usage_graph",
     cpu="usage_cpu",
     graph_style="blocks",
-    direction="right-to-left",
-    graph_width=7,
+    graph_width=15,
+    #direction="right-to-left",
     format="⚙🖳 {cpu_graph}",
 )
 
@@ -72,15 +72,15 @@ status.register("disk",
     format="🖬/ {avail}G",)
 
 status.register("network",
-    interface="enp0s31f6",
+    interface="enp3s0",
     #format_up="〰{v4cidr}",
     format_up="🖧 {v4cidr} ⮋{bytes_recv:5.0f} KB/s ⮉{bytes_sent:5.0f} KB/s",
 )
 
-# Note: requires both netifaces and basiciw (for essid and quality)
-status.register("network",
-    interface="wlp1s0",
-    format_up="📶 {essid} {quality:02.0f}% ⮋{bytes_recv:5.0f} KB/s ⮉{bytes_sent:5.0f} KB/s",)
+## Note: requires both netifaces and basiciw (for essid and quality)
+#status.register("network",
+#    interface="wlp1s0",
+#    format_up="📶 {essid} {quality:02.0f}% ⮋{bytes_recv:5.0f} KB/s ⮉{bytes_sent:5.0f} KB/s",)
 
 status.register("runwatch",
     path="/tmp/vm-deb8",

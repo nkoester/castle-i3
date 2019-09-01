@@ -38,7 +38,10 @@ bindsym $mod+q kill
 #bindsym $mod+space exec dmenu_run -p "run >> "
 bindsym $mod+space exec rofi -show run
 bindsym $mod+s exec rofi -show ssh
+bindsym $mod+c exec --no-startup-id "rofi -show calc -modi calc -no-show-match -no-sort"
+# bindsym $mod+c exec --no-startup-id "rofi -show calc -modi calc -no-show-match -no-sort -calc-command \"echo '{result}' | xclip\""
 bindsym Ctrl+Shift+Tab exec rofi -show window
+# bindsym $mod+space exec dmenu_run -fn 'DejaVu Sans Mono:bold:pixelsize=40' -p "run >> " -l 7
 #bindsym $mod+d exec --no-startup-id i3-dmenu-desktop
 
 # change focus
@@ -181,22 +184,7 @@ exec_always --no-startup-id $HOME/.i3/launchpolybar.sh
 
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)
-# bar {
-#         position top
-#         #status_command i3status
-#         #status_command python3  ~/.i3/i3pystatusconfig.py
-#         position                top
-#         workspace_buttons       yes
-#         #strip_workspace_numbers yes
-#         #separator_symbol "|"
-#         colors {
-#             #separator #660000
-#             focused_workspace  #007030 #007030 #ffffff
-#             active_workspace   #555555 #555555 #ffffff
-#             inactive_workspace #000000 #000000 #888888
-#             urgent_workspace   #2f343a #900000 #ffffff
-#         }
-# }
+exec_always --no-startup-id $HOME/.i3/launchPolybar.sh
 
 #colors:                border  backgr. text    indicator
 #client.focused          #007030 #007030 #ffffff #2b2b2b
@@ -256,7 +244,7 @@ bindsym $alt+$mod+ctrl+0 exec /home/nkoester/.screenlayout/office2.sh
 bindsym $alt+$mod+ctrl+9 exec /home/nkoester/.screenlayout/mobile2.sh
 
 # xrandr the screen setup
-exec `which xrandr_techfak.sh`
+#exec `which xrandr_techfak.sh`
 
 # notofications
 exec `which dunst`
@@ -268,15 +256,13 @@ bindsym ctrl+$alt+l exec "/usr/bin/xscreensaver-command -lock"
 
 # icons
 exec "/usr/bin/volumeicon"
-exec "which `nm-applet`"
-exec "which `fluxgui`"
+#exec "which `nm-applet`"
+#exec "which `fluxgui`"
 exec "/usr/bin/compton -CG --config /home/nkoester/.i3/compton.conf"
 
 # background
 #exec --no-startup-id "feh --bg-scale --randomize /usr/share/backgrounds/"
 exec --no-startup-id "feh --bg-max --randomize /vol/wallpaper/"
-#bindsym $mod+b exec --no-startup-id "feh --bg-scale --randomize /usr/share/backgrounds/"
-#bindsym $mod+b exec --no-startup-id "feh --bg-max --randomize /vol/wallpaper/unsplash/"
 bindsym $mod+b exec --no-startup-id "feh --bg-fill --randomize /vol/wallpaper/unsplash/"
 
 # Disable Nautilus desktop.
@@ -295,6 +281,8 @@ bindsym ctrl+$mod+$alt+space exec --no-startup-id "$HOME/local/bin/toggle_keyboa
 
 # password autotype binding
 bindsym $mod+p exec "$HOME/local/bin/passmenu --type -nb black -nf white -sb black -sf orange -b"
+
+exec /usr/bin/blueberry-tray
 
 ###
 # MULTI SCREEN SETTINGS
@@ -402,9 +390,13 @@ for_window [class="Wine" title="wine"] floating enable, border normal
 for_window [class="de.citec.csra.mapfx3.MapLoader"] floating enable, border normal
 
 # on login ...
-exec --no-startup-id i3-msg 'workspace 1:mail; exec /usr/bin/thunderbird'
-exec --no-startup-id i3-msg 'workspace 2:www; exec /usr/bin/firefox'
-exec --no-startup-id i3-msg 'workspace 3:term; exec termite;'
-exec --np-startup-id i3-msg 'workspace 10:stat; exec psensor'
-exec --np-startup-id i3-msg 'workspace 10:stat; exec termite -e "dmesg -Twx"'
+# exec --no-startup-id i3-msg 'workspace 1:mail; exec /usr/bin/thunderbird'
+# exec --no-startup-id i3-msg 'workspace 2:www; exec /usr/bin/firefox'
+# exec --no-startup-id i3-msg 'workspace 3:term; exec termite;'
+# exec --np-startup-id i3-msg 'workspace 10:stat; exec psensor'
+# exec --np-startup-id i3-msg 'workspace 10:stat; exec termite -e "dmesg -Twx"'
+exec --no-startup-id i3-msg 'workspace 1:mail; exec /usr/bin/firefox'
+
+for_window [class="Vmg" instance="vmg" title="Magnifying Glass"] floating enable, border none
+bindsym $mod+m exec vmg
 
