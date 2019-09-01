@@ -49,12 +49,12 @@ font-2 = Wuncon siji:pixelsize=10;1
 
 modules-left = i3
 modules-center =
-modules-right = pdflatex latexmk vm filesystem xkeyboard cpu memory wlan eth battery temperature volume date powermenu
+modules-right = pdflatex latexmk vm filesystem xkeyboard cpu memory wlan eth battery temperature volume backlight date powermenu
 
 tray-position = right
-tray-padding = 5
+tray-padding = 10
 tray-transparent = true
-tray-background = #0063ff
+tray-background = ${colors.background}
 
 wm-restack = i3
 ;override-redirect = true
@@ -71,7 +71,7 @@ inherit = bar/general
 
 modules-left = i3
 ;modules-right = cpu memory filesystem xkeyboard volume date powermenu
-modules-right = pdflatex latexmk vm filesystem xkeyboard cpu memory wlan eth backlight-acpi battery temperature volume date powermenu
+modules-right = pdflatex latexmk vm filesystem xkeyboard cpu memory wlan eth battery temperature volume date powermenu
 ;modules-right = backlight-acpi cpu memory swap battery filesystem xkeyboard volume date powermenu
 
 tray-position = right
@@ -107,8 +107,8 @@ type = internal/fs
 interval = 25
 
 mount-0 = /
-mount-1 = /tmp
-mount-2 = /home
+mount-1 = /home
+; mount-2 = /tmp
 
 label-mounted = %{F#0a81f5}%mountpoint%%{F-}: %percentage_used%%
 label-unmounted = %mountpoint% not mounted
@@ -124,7 +124,7 @@ wrapping-scroll = false
 ; Only show workspaces on the same output as the bar
 pin-workspaces = true
 
-label-mode-padding = 2
+label-mode-padding = 1
 label-mode-foreground = #000
 label-mode-background = ${colors.primary}
 
@@ -132,11 +132,11 @@ label-mode-background = ${colors.primary}
 label-focused = %name%
 label-focused-background = ${colors.background-alt}
 label-focused-underline = ${colors.primary}
-label-focused-padding = 2
+label-focused-padding = 1
 
 ; unfocused = Inactive workspace on any monitor
 label-unfocused = %name%
-label-unfocused-padding = 2
+label-unfocused-padding = 1
 
 ; visible = Active workspace on unfocused monitor
 label-visible = %name%
@@ -177,6 +177,25 @@ inherit = module/xbacklight
 type = internal/backlight
 card = intel_backlight
 
+
+[module/backlight]
+type = internal/backlight
+; Use the following command to list available cards:
+; $ ls -1 /sys/class/backlight/
+card = intel_backlight
+
+format = <ramp> <label>
+
+label = %percentage%%
+
+; Only applies if <ramp> is used
+ramp-0 = 🌕
+ramp-1 = 🌔
+ramp-2 = 🌓
+ramp-3 = 🌒
+ramp-4 = 🌑
+
+
 [module/cpu]
 type = internal/cpu
 interval = 1
@@ -201,17 +220,14 @@ ramp-coreload-7 = █
 
 [module/memory]
 type = internal/memory
-interval = 2
+interval = 3
 format-prefix = " "
 format-prefix-foreground = ${colors.foreground-alt}
 format-underline = #4bffdc
-; label = %percentage_used%%
 
-
-label = %gb_used%/%gb_free%
+; label = %gb_used%/%gb_free%
+label = %percentage_used%%
 ;format = <bar-used>
-;format = <label> <bar-used>
-;todo: new feature, use once released
 format = <label> <ramp-used>
 
 ; Only applies if <bar-used> is used
@@ -247,13 +263,13 @@ ramp-free-7 = █
 
 [module/wlan]
 type = internal/network
-interface = wlp1s0
+interface = wlp2s0
 interval = 3.0
 
 format-connected = <ramp-signal> <label-connected>
 format-connected-underline = #9f78e1
 ;label-connected = [%essid%] %local_ip% [u %upspeed% / d %downspeed%]
-label-connected = [%essid%] %local_ip%
+label-connected = %local_ip%@%essid%
 
 ;format-disconnected =
 ;format-disconnected = <label-disconnected>
@@ -270,7 +286,7 @@ ramp-signal-foreground = ${colors.foreground-alt}
 
 [module/eth]
 type = internal/network
-interface = enp0s31f6
+interface = enp0s25
 interval = 3.0
 
 format-connected-underline = #55aa55
@@ -311,8 +327,9 @@ label-volume-foreground = ${root.foreground}
 format-muted-prefix = " "
 format-muted-foreground = ${colors.foreground-alt}
 label-muted = sound muted
+label-muted-foreground = #ff0000
 
-bar-volume-width = 10
+bar-volume-width = 6
 bar-volume-foreground-0 = #55aa55
 bar-volume-foreground-1 = #55aa55
 bar-volume-foreground-2 = #55aa55
@@ -337,17 +354,27 @@ full-at = 98
 
 format-charging = <animation-charging> <label-charging>
 format-charging-underline = #ffb52a
+label-charging = %percentage%%++ (~%time%)
 
 format-discharging = <ramp-capacity> <label-discharging>
 format-discharging-underline = ${self.format-charging-underline}
+label-discharging = %percentage%% (~%time%)
 
 format-full-prefix = " "
 format-full-prefix-foreground = ${colors.foreground-alt}
 format-full-underline = ${self.format-charging-underline}
 
-ramp-capacity-0 = 
+ramp-capacity-0 = WARN!
+ramp-capacity-0-foreground = #ffffff
+ramp-capacity-0-background = #de0037
 ramp-capacity-1 = 
 ramp-capacity-2 = 
+ramp-capacity-3 = 
+ramp-capacity-4 = 
+ramp-capacity-5 = 
+ramp-capacity-6 = 
+ramp-capacity-7 = 
+ramp-capacity-8 = 
 ramp-capacity-foreground = ${colors.foreground-alt}
 
 animation-charging-0 = 
@@ -406,21 +433,21 @@ menu-2-1-exec = menu-open-0
 
 [module/pdflatex]
 type = custom/script
-exec = ps -ef |grep -v grep | grep pdflatex > /dev/null && echo 'PDFLATEX RUNNING'
+exec = ps -ef |grep -v grep | grep pdflatex > /dev/null && echo 'PDFLATEX'
 interval = 1
 label = %{B#f00 F#fff}%output%
 format-underline = #268bd2
 
 [module/latexmk]
 type = custom/script
-exec = ps -ef |grep -v grep | grep latexmk > /dev/null && echo 'LATEXMK RUNNING'
+exec = ps -ef |grep -v grep | grep latexmk > /dev/null && echo 'LATEXMK'
 interval = 1
 label = %{B#700 F#fff}%output%
 format-underline = #268bd2
 
 [module/vm]
 type = custom/script
-exec = pgrep qemu > /dev/null && echo 'VM(s) running'
+exec = pgrep qemu > /dev/null && echo 'VM(s)'
 interval = 5
 label = %{F#ff0000}%output%
 format-underline = #268bd2
