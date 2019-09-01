@@ -49,7 +49,8 @@ font-2 = Wuncon siji:pixelsize=10;1
 
 modules-left = i3
 modules-center =
-modules-right = pdflatex latexmk vm filesystem xkeyboard cpu memory wlan eth battery temperature volume backlight date powermenu
+; modules-right = pdflatex latexmk vm filesystem xkeyboard cpu memory wlan eth battery temperature volume backlight date powermenu
+modules-right = pdflatex latexmk vm xkeyboard system-cpu-frequency cpu memory wlan eth battery temperature volume updates-arch-aur date powermenu
 
 tray-position = right
 tray-padding = 10
@@ -71,7 +72,8 @@ inherit = bar/general
 
 modules-left = i3
 ;modules-right = cpu memory filesystem xkeyboard volume date powermenu
-modules-right = pdflatex latexmk vm filesystem xkeyboard cpu memory wlan eth battery temperature volume date powermenu
+; modules-right = pdflatex latexmk vm filesystem xkeyboard cpu memory wlan eth battery temperature volume date powermenu
+modules-right = pdflatex latexmk vm  xkeyboard system-cpu-frequency cpu memory wlan eth backlight-acpi battery temperature volume updates-arch-aur date powermenu
 ;modules-right = backlight-acpi cpu memory swap battery filesystem xkeyboard volume date powermenu
 
 tray-position = right
@@ -217,6 +219,11 @@ ramp-coreload-5 = ▆
 ramp-coreload-6 = ▇
 ramp-coreload-7 = █
 
+[module/system-cpu-frequency]
+type = custom/script
+exec = ~/local/bin/system-cpu-frequency.sh
+interval = 2
+; label = %{F#ff0000}%output%
 
 [module/memory]
 type = internal/memory
@@ -226,7 +233,8 @@ format-prefix-foreground = ${colors.foreground-alt}
 format-underline = #4bffdc
 
 ; label = %gb_used%/%gb_free%
-label = %percentage_used%%
+label = %percentage_used%% (%gb_used%)
+;%gb_free%
 ;format = <bar-used>
 format = <label> <ramp-used>
 
@@ -352,7 +360,7 @@ battery = BAT0
 adapter = AC
 full-at = 98
 
-format-charging = <animation-charging> <label-charging>
+format-charging = <ramp-capacity> <label-charging>
 format-charging-underline = #ffb52a
 label-charging = %percentage%%++ (~%time%)
 
@@ -367,14 +375,13 @@ format-full-underline = ${self.format-charging-underline}
 ramp-capacity-0 = WARN!
 ramp-capacity-0-foreground = #ffffff
 ramp-capacity-0-background = #de0037
-ramp-capacity-1 = 
-ramp-capacity-2 = 
-ramp-capacity-3 = 
-ramp-capacity-4 = 
-ramp-capacity-5 = 
-ramp-capacity-6 = 
-ramp-capacity-7 = 
-ramp-capacity-8 = 
+ramp-capacity-1 = ▂
+ramp-capacity-2 = ▃
+ramp-capacity-3 = ▄
+ramp-capacity-4 = ▅
+ramp-capacity-5 = ▆
+ramp-capacity-6 = ▇
+ramp-capacity-7 = █
 ramp-capacity-foreground = ${colors.foreground-alt}
 
 animation-charging-0 = 
@@ -386,21 +393,29 @@ animation-charging-framerate = 750
 [module/temperature]
 type = internal/temperature
 thermal-zone = 0
-warn-temperature = 60
+warn-temperature = 82
 
-format = <ramp> <label>
+format = <label>
 format-underline = #f50a4d
-format-warn = <ramp> <label-warn>
+
+format-warn = <label-warn>
 format-warn-underline = ${self.format-underline}
 
-label = %temperature%
-label-warn = %temperature%
+;  %{B#700 F#fff}
+
+label = %temperature-c%
+label-warn = %{B#700 F#fff}%temperature-c% (!)
 label-warn-foreground = ${colors.secondary}
 
-ramp-0 = 
-ramp-1 = 
-ramp-2 = 
+hwmon-path = /sys/devices/platform/coretemp.0/hwmon/hwmon3/temp1_input
+; ramp-0 = 
+; ramp-1 = 
+; ramp-2 = 
+ramp-0 = A
+ramp-1 = B
+ramp-2 = C
 ramp-foreground = ${colors.foreground-alt}
+
 
 [module/powermenu]
 type = custom/menu
@@ -440,7 +455,8 @@ format-underline = #268bd2
 
 [module/latexmk]
 type = custom/script
-exec = ps -ef |grep -v grep | grep latexmk > /dev/null && echo 'LATEXMK'
+; exec = ps -ef |grep -v grep | grep latexmk > /dev/null && echo 'LATEXMK'
+exec = ps -ef |grep -v grep | grep /usr/bin/latexmk > /dev/null && echo 'LATEXMK'
 interval = 1
 label = %{B#700 F#fff}%output%
 format-underline = #268bd2
@@ -451,6 +467,12 @@ exec = pgrep qemu > /dev/null && echo 'VM(s)'
 interval = 5
 label = %{F#ff0000}%output%
 format-underline = #268bd2
+
+[module/updates-arch-aur]
+type = custom/script
+exec = ~/.config/polybar/scripts/archupdates.sh
+label = %{F#ff0000}%output%
+interval = 600
 
 [settings]
 screenchange-reload = true

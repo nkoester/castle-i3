@@ -38,7 +38,8 @@ bindsym $mod+q kill
 #bindsym $mod+space exec dmenu_run -p "run >> "
 bindsym $mod+space exec rofi -show run
 
-bindsym $mod+c exec --no-startup-id "rofi -show calc -modi calc -no-show-match -no-sort"
+bindsym $mod+c exec leo_search_rofi.sh
+# bindsym $mod+c exec --no-startup-id "rofi -show calc -modi calc -no-show-match -no-sort"
 # bindsym $mod+c exec --no-startup-id "rofi -show calc -modi calc -no-show-match -no-sort -calc-command \"echo '{result}' | xclip\""
 
 # todo: readd this?
@@ -136,7 +137,7 @@ bindsym $mod+0 workspace $workspace_10
 bindsym $mod+$alt+semicolon workspace next
 bindsym $mod+$alt+j workspace prev
 # open a blank new workspace, where ever possible
-bindsym $mod+ctrl+Return exec --no-startup-id ~/.i3/open_empty_workspace.sh
+bindsym $d +ctrl+Return exec --no-startup-id ~/.i3/open_empty_workspace.sh
 
 # move focused container to workspace
 bindsym $mod+Shift+1 move container to workspace $workspace_1
@@ -210,12 +211,14 @@ set $red                #CC6666
 set $darkred            #A54242
 set $green              #B5BD56
 set $greennew           #dbdfad
+set $lr #FF3333
+set $orange             #E59400
 
-#class                  border      backgr.     text        split
-client.focused          $greennew   $green      $black      $red
-client.focused_inactive $grey       $grey       $lightgrey  $grey
-client.unfocused        $lightgrey  $grey       $lightergrey  $grey
-client.urgent           $red        $red        $black      $red
+#class                  border      backgr.  text          split
+client.focused          $greennew   $orange $black        $lr
+client.focused_inactive $grey       $grey    $lightgrey    $grey
+client.unfocused        $lightgrey  $grey    $lightergrey  $grey
+client.urgent           $red        $red     $black        $red
 client.background       $back
 
 
@@ -267,7 +270,6 @@ exec "xss-lock -- xscreensaver-command -lock"
 bindsym ctrl+$alt+l exec "/usr/bin/xscreensaver-command -lock"
 
 # icons
-<<<<<<< HEAD
 exec "/usr/bin/volumeicon"
 # exec "/usr/bin/volumeicon"
 
@@ -302,10 +304,8 @@ bindsym ctrl+$mod+$alt+space exec --no-startup-id "$HOME/local/bin/toggle_keyboa
 bindsym $mod+o exec "$HOME/local/bin/passotpmenu --type -nb black -nf white -sb black -sf orange -b"
 bindsym $mod+Shift+o exec "$HOME/local/bin/passotpmenu --type --slow -nb black -nf white -sb black -sf orange -b"
 
-
 bindsym $mod+p exec "$HOME/local/bin/passmenu --type -nb black -nf white -sb black -sf orange -b"
 bindsym $mod+Shift+p exec "$HOME/local/bin/passmenu --type --slow -nb black -nf white -sb black -sf orange -b"
-
 exec /usr/bin/blueberry-tray
 
 ###
@@ -348,6 +348,9 @@ bindsym XF86MonBrightnessDown exec /usr/bin/brightnessctl s 5%-
 bindsym XF86MonBrightnessUp   exec /usr/bin/brightnessctl s +5%
 
 
+bindsym $mod+$alt+Delete exec "/home/nkoester/local/bin/restartnmapplet.sh"
+bindsym $mod+$alt+b exec "/home/nkoester/local/bin/connectBluetoothHeadset.sh"
+
 # i3 gaps
 for_window [class="^.*"] border pixel 2
 gaps inner 10
@@ -366,6 +369,8 @@ for_window [class="^XCalc$"] floating enable
 for_window [class="^Galculator$"] floating enable
 for_window [class="^Steam$"] floating enable; border none
 
+for_window [class="Pavucontrol" instance="pavucontrol" title="Volume Control"] floating enable
+for_window [class="Blueman-manager" instance="blueman-manager" title="Bluetooth Devices"] floating enable
 # gnome calc
 for_window [class="^Gnome-calculator$"] floating enable; border none
 
