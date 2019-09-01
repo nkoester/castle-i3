@@ -221,7 +221,7 @@ ramp-coreload-7 = █
 
 [module/system-cpu-frequency]
 type = custom/script
-exec = ~/local/bin/system-cpu-frequency.sh
+exec = ~/.config/polybar/scripts/system-cpu-frequency.sh
 interval = 2
 ; label = %{F#ff0000}%output%
 
