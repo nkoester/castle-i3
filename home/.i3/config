@@ -37,9 +37,14 @@ bindsym $mod+q kill
 # start dmenu (a program launcher)
 #bindsym $mod+space exec dmenu_run -p "run >> "
 bindsym $mod+space exec rofi -show run
-bindsym $mod+s exec rofi -show ssh
+
 bindsym $mod+c exec --no-startup-id "rofi -show calc -modi calc -no-show-match -no-sort"
 # bindsym $mod+c exec --no-startup-id "rofi -show calc -modi calc -no-show-match -no-sort -calc-command \"echo '{result}' | xclip\""
+
+# todo: readd this?
+# bindsym $mod+s exec rofi -show ssh
+bindsym $mod+s exec teiler
+
 bindsym Ctrl+Shift+Tab exec rofi -show window
 # bindsym $mod+space exec dmenu_run -fn 'DejaVu Sans Mono:bold:pixelsize=40' -p "run >> " -l 7
 #bindsym $mod+d exec --no-startup-id i3-dmenu-desktop
@@ -231,14 +236,21 @@ workspace_auto_back_and_forth yes
 bindsym $mod+n exec i3-input -F 'rename workspace to "%s"' -P 'Rename workspace: '
 
 # audio keys
+
+bindsym XF86AudioMute exec /usr/bin/pulseaudio-ctl mute
+bindsym XF86AudioMicMute exec /usr/bin/pulseaudio-ctl mute-input
+bindsym XF86AudioRaiseVolume exec /usr/bin/pulseaudio-ctl up
+bindsym XF86AudioLowerVolume exec /usr/bin/pulseaudio-ctl down
+
+
 #bindsym XF86AudioRaiseVolume exec amixer -q set Master 2%+ unmute && notify-send -t 1 "Volume (+2dB): " `amixer get Master | grep -oE "\[[0-9]+\%\]" | head -n 1`
 #bindsym XF86AudioLowerVolume exec amixer -q set Master 2%- unmute && notify-send -t 1 "Volume (-2dB): " `amixer get Master | grep -oE "\[[0-9]+\%\]" | head -n 1`
 #bindsym XF86AudioMute exec amixer -q -D pulse set Master toggle && notify-send -t 1 "Volume (MUTED): " `amixer get Master | grep -oE "(\[(on|off)+\])" | head -n 1`
 
 
-bindsym XF86AudioRaiseVolume exec amixer -q set Master 2%+ unmute && notify-send.sh --replace=1 -t 1 "Volume (+2dB): " `amixer get Master | grep -oE "\[[0-9]+\%\]" | head -n 1`
-bindsym XF86AudioLowerVolume exec amixer -q set Master 2%- unmute && notify-send.sh --replace=1 -t 1 "Volume (-2dB): " `amixer get Master | grep -oE "\[[0-9]+\%\]" | head -n 1`
-bindsym XF86AudioMute exec amixer -q -D pulse set Master toggle && notify-send.sh --replace=1 -t 1 "Volume (MUTED): " `amixer get Master | grep -oE "(\[(on|off)+\])" | head -n 1`
+# bindsym XF86AudioRaiseVolume exec amixer -q set Master 2%+ unmute && notify-send.sh --replace=1 -t 1 "Volume (+2dB): " `amixer get Master | grep -oE "\[[0-9]+\%\]" | head -n 1`
+# bindsym XF86AudioLowerVolume exec amixer -q set Master 2%- unmute && notify-send.sh --replace=1 -t 1 "Volume (-2dB): " `amixer get Master | grep -oE "\[[0-9]+\%\]" | head -n 1`
+# bindsym XF86AudioMute exec amixer -q -D pulse set Master toggle && notify-send.sh --replace=1 -t 1 "Volume (MUTED): " `amixer get Master | grep -oE "(\[(on|off)+\])" | head -n 1`
 
 bindsym $alt+$mod+ctrl+0 exec /home/nkoester/.screenlayout/office2.sh
 bindsym $alt+$mod+ctrl+9 exec /home/nkoester/.screenlayout/mobile2.sh
@@ -255,9 +267,16 @@ exec "xss-lock -- xscreensaver-command -lock"
 bindsym ctrl+$alt+l exec "/usr/bin/xscreensaver-command -lock"
 
 # icons
+<<<<<<< HEAD
 exec "/usr/bin/volumeicon"
-#exec "which `nm-applet`"
-#exec "which `fluxgui`"
+# exec "/usr/bin/volumeicon"
+
+exec "which `nm-applet`"
+# exec "which `nm-applet`"
+#
+# exec "which `fluxgui`"
+exec "which `fluxgui`"
+
 exec "/usr/bin/compton -CG --config /home/nkoester/.i3/compton.conf"
 
 # background
@@ -280,7 +299,12 @@ exec "setxkbmap us"
 bindsym ctrl+$mod+$alt+space exec --no-startup-id "$HOME/local/bin/toggle_keyboardlayout.sh"
 
 # password autotype binding
+bindsym $mod+o exec "$HOME/local/bin/passotpmenu --type -nb black -nf white -sb black -sf orange -b"
+bindsym $mod+Shift+o exec "$HOME/local/bin/passotpmenu --type --slow -nb black -nf white -sb black -sf orange -b"
+
+
 bindsym $mod+p exec "$HOME/local/bin/passmenu --type -nb black -nf white -sb black -sf orange -b"
+bindsym $mod+Shift+p exec "$HOME/local/bin/passmenu --type --slow -nb black -nf white -sb black -sf orange -b"
 
 exec /usr/bin/blueberry-tray
 
@@ -300,10 +324,8 @@ bindsym $mod+ctrl+$alt+l move workspace to output below
 # Set the shortcuts and what they do
 set $mode_display Screen Setup: (m) mobile, (o) office, (c) csra, (h) HDMI ON, (y) HDMI OFF, (v) VGA ON, (f) VGA OFF
 mode "$mode_display" {
-    bindsym m exec --no-startup-id /home/nkoester/local/bin/xrandr_mobile.sh&&/home/nkoester/local/bin/bright_ctrl 201&& feh --bg-max --randomize /vol/wallpaper/ && /home/nkoester/.i3/launchpolybar.sh, mode "default"
-    bindsym o exec --no-startup-id /home/nkoester/local/bin/xrandr_office_dp.sh&&/home/nkoester/local/bin/bright_ctrl 937&& feh --bg-max --randomize /vol/wallpaper/ && /home/nkoester/.i3/launchpolybar.sh, mode "default"
-    bindsym c exec --no-startup-id /home/nkoester/local/bin/xrandr_csra.sh&&/home/nkoester/local/bin/bright_ctrl 937&& feh --bg-max --randomize /vol/wallpaper/ && /home/nkoester/.i3/launchpolybar.sh, mode "default"
-    bindsym h exec --no-startup-id xrandr --output HDMI1 --auto --right-of LVDS1 --output HDMI-1 --auto --right-of LVDS1 && /home/nkoester/.i3/launchpolybar.sh, mode "default"
+    bindsym m exec --no-startup-id /home/nkoester/local/bin/xrandr_mobile_lvds.sa& feh --bg-max --randomize /vol/wallpaper/ && /home/nkoester/.i3/launchpolybar.sh, mode "default"
+    bindsym h exec --no-startup-id xrandr --output HDMI1 --auto --right-of LVDS-1 --output HDMI-1 --auto --right-of LVDS1 && /home/nkoester/.i3/launchpolybar.sh, mode "default"
     bindsym y exec --no-startup-id xrandr --output HDMI1 --off --output HDMI-1 --off, mode "default"
     bindsym v exec --no-startup-id xrandr --output VGA1 --auto --right-of LVDS1, mode "default"
     bindsym f exec --no-startup-id xrandr --output VGA1 --off, mode "default"
@@ -322,8 +344,8 @@ bindsym $mod+ctrl+semicolon focus output right
 bindsym $mod+ctrl+k focus output above
 bindsym $mod+ctrl+l focus output below
 
-bindsym XF86MonBrightnessDown exec /home/nkoester/local/bin/bright_ctrl -
-bindsym XF86MonBrightnessUp   exec /home/nkoester/local/bin/bright_ctrl +
+bindsym XF86MonBrightnessDown exec /usr/bin/brightnessctl s 5%-
+bindsym XF86MonBrightnessUp   exec /usr/bin/brightnessctl s +5%
 
 
 # i3 gaps
@@ -395,7 +417,10 @@ for_window [class="de.citec.csra.mapfx3.MapLoader"] floating enable, border norm
 # exec --no-startup-id i3-msg 'workspace 3:term; exec termite;'
 # exec --np-startup-id i3-msg 'workspace 10:stat; exec psensor'
 # exec --np-startup-id i3-msg 'workspace 10:stat; exec termite -e "dmesg -Twx"'
-exec --no-startup-id i3-msg 'workspace 1:mail; exec /usr/bin/firefox'
+exec --no-startup-id i3-msg 'workspace 2:www; exec /usr/bin/firefox'
+exec --no-startup-id i3-msg 'workspace 3:term; exec termite;'
+# exec --np-startup-id i3-msg 'workspace 10:stat; exec psensor'
+# exec --np-startup-id i3-msg 'workspace 10:stat; exec termite -e "dmesg -Twx"'
 
 for_window [class="Vmg" instance="vmg" title="Magnifying Glass"] floating enable, border none
 bindsym $mod+m exec vmg
