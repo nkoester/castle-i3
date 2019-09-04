@@ -137,7 +137,7 @@ bindsym $mod+0 workspace $workspace_10
 bindsym $mod+$alt+semicolon workspace next
 bindsym $mod+$alt+j workspace prev
 # open a blank new workspace, where ever possible
-bindsym $d +ctrl+Return exec --no-startup-id ~/.i3/open_empty_workspace.sh
+bindsym $mod+ctrl+Return exec --no-startup-id ~/.i3/open_empty_workspace.sh
 
 # move focused container to workspace
 bindsym $mod+Shift+1 move container to workspace $workspace_1
@@ -239,21 +239,11 @@ workspace_auto_back_and_forth yes
 bindsym $mod+n exec i3-input -F 'rename workspace to "%s"' -P 'Rename workspace: '
 
 # audio keys
-
 bindsym XF86AudioMute exec /usr/bin/pulseaudio-ctl mute
 bindsym XF86AudioMicMute exec /usr/bin/pulseaudio-ctl mute-input
 bindsym XF86AudioRaiseVolume exec /usr/bin/pulseaudio-ctl up
 bindsym XF86AudioLowerVolume exec /usr/bin/pulseaudio-ctl down
 
-
-#bindsym XF86AudioRaiseVolume exec amixer -q set Master 2%+ unmute && notify-send -t 1 "Volume (+2dB): " `amixer get Master | grep -oE "\[[0-9]+\%\]" | head -n 1`
-#bindsym XF86AudioLowerVolume exec amixer -q set Master 2%- unmute && notify-send -t 1 "Volume (-2dB): " `amixer get Master | grep -oE "\[[0-9]+\%\]" | head -n 1`
-#bindsym XF86AudioMute exec amixer -q -D pulse set Master toggle && notify-send -t 1 "Volume (MUTED): " `amixer get Master | grep -oE "(\[(on|off)+\])" | head -n 1`
-
-
-# bindsym XF86AudioRaiseVolume exec amixer -q set Master 2%+ unmute && notify-send.sh --replace=1 -t 1 "Volume (+2dB): " `amixer get Master | grep -oE "\[[0-9]+\%\]" | head -n 1`
-# bindsym XF86AudioLowerVolume exec amixer -q set Master 2%- unmute && notify-send.sh --replace=1 -t 1 "Volume (-2dB): " `amixer get Master | grep -oE "\[[0-9]+\%\]" | head -n 1`
-# bindsym XF86AudioMute exec amixer -q -D pulse set Master toggle && notify-send.sh --replace=1 -t 1 "Volume (MUTED): " `amixer get Master | grep -oE "(\[(on|off)+\])" | head -n 1`
 
 bindsym $alt+$mod+ctrl+0 exec /home/nkoester/.screenlayout/office2.sh
 bindsym $alt+$mod+ctrl+9 exec /home/nkoester/.screenlayout/mobile2.sh
@@ -324,11 +314,15 @@ bindsym $mod+ctrl+$alt+l move workspace to output below
 # Set the shortcuts and what they do
 set $mode_display Screen Setup: (m) mobile, (o) office, (c) csra, (h) HDMI ON, (y) HDMI OFF, (v) VGA ON, (f) VGA OFF
 mode "$mode_display" {
-    bindsym m exec --no-startup-id /home/nkoester/local/bin/xrandr_mobile_lvds.sa& feh --bg-max --randomize /vol/wallpaper/ && /home/nkoester/.i3/launchpolybar.sh, mode "default"
+    # bindsym m exec --no-startup-id /home/nkoester/local/bin/xrandr_mobile_lvds.sa& feh --bg-max --randomize /vol/wallpaper/ && /home/nkoester/.i3/launchpolybar.sh, mode "default"
     bindsym h exec --no-startup-id xrandr --output HDMI1 --auto --right-of LVDS-1 --output HDMI-1 --auto --right-of LVDS1 && /home/nkoester/.i3/launchpolybar.sh, mode "default"
     bindsym y exec --no-startup-id xrandr --output HDMI1 --off --output HDMI-1 --off, mode "default"
     bindsym v exec --no-startup-id xrandr --output VGA1 --auto --right-of LVDS1, mode "default"
     bindsym f exec --no-startup-id xrandr --output VGA1 --off, mode "default"
+
+    #naysayer specific
+    bindsym m exec --no-startup-id /home/nkoester/local/bin/xrandr_mobile.sh&&/home/ nkoester/local/bin/bright_ctrl 201&& feh --bg-max --randomize /vol/wallpaper/ && /home/nkoester/.i3/launchpolybar.sh, mode "default"
+    bindsym o exec --no-startup-id /home/nkoester/local/bin/xrandr_office_dp.sh&&/home/nkoester/local/bin/bright_ctrl 937&& feh --bg-max --randomize /vol/wallpaper/ && /home/nkoester/.i3/launchpolybar.sh, mode "default"
 
     # back to normal: Enter or Escape
     bindsym Return mode "default"
@@ -344,8 +338,14 @@ bindsym $mod+ctrl+semicolon focus output right
 bindsym $mod+ctrl+k focus output above
 bindsym $mod+ctrl+l focus output below
 
-bindsym XF86MonBrightnessDown exec /usr/bin/brightnessctl s 5%-
-bindsym XF86MonBrightnessUp   exec /usr/bin/brightnessctl s +5%
+
+# naysayer
+bindsym XF86MonBrightnessDown exec /home/nkoester/local/bin/bright_ctrl -
+bindsym XF86MonBrightnessUp   exec /home/nkoester/local/bin/bright_ctrl +
+
+# haloumi
+# bindsym XF86MonBrightnessDown exec /usr/bin/brightnessctl s 5%-
+# bindsym XF86MonBrightnessUp   exec /usr/bin/brightnessctl s +5%
 
 
 bindsym $mod+$alt+Delete exec "/home/nkoester/local/bin/restartnmapplet.sh"
