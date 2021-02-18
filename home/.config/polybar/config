@@ -13,7 +13,7 @@ background = #222
 background-alt = #6c7133
 ;foreground = ${xrdb:color7:#222}
 foreground = #dfdfdf
-foreground-alt = #555
+foreground-alt = #AAA
 primary = #ffb52a
 secondary = #e60053
 alert = #bd2c40
@@ -38,23 +38,25 @@ border-size = 4
 border-color = #00000000
 
 padding-left = 0
-padding-right = 2
+padding-right = 0
 
-module-margin-left = 2
-module-margin-right = 2
+module-margin-left = 0
+module-margin-right = 1
 
 font-0 = fixed:pixelsize=10;1
-font-1 = unifont:fontformat=truetype:size=8:antialias=false;0
-font-2 = Wuncon siji:pixelsize=10;1
+font-1 = unifont:fontformat=truetype:size=8:antialias=true;0
+ont-2 = Siji:pixelsize=10;1
+; font-2 = Wuncon siji:pixelsize=10;1
+ font-2 = "Noto Sans Symbols2:size=10;1"
 
 modules-left = i3
 modules-center =
 ; modules-right = pdflatex latexmk vm filesystem xkeyboard cpu memory wlan eth battery temperature volume backlight date powermenu
-modules-right = pdflatex latexmk vm xkeyboard system-cpu-frequency cpu memory wlan eth battery temperature volume updates-arch-aur date powermenu
+modules-right = pdflatex latexmk vm xkeyboard cpu system-cpu-frequency memory wlan eth battery temperature pulseaudio updates-arch-aur date
 
 tray-position = right
 tray-padding = 10
-tray-transparent = true
+; tray-transparent = true
 tray-background = ${colors.background}
 
 wm-restack = i3
@@ -73,7 +75,7 @@ inherit = bar/general
 modules-left = i3
 ;modules-right = cpu memory filesystem xkeyboard volume date powermenu
 ; modules-right = pdflatex latexmk vm filesystem xkeyboard cpu memory wlan eth battery temperature volume date powermenu
-modules-right = pdflatex latexmk vm  xkeyboard system-cpu-frequency cpu memory wlan eth backlight-acpi battery temperature volume updates-arch-aur date powermenu
+modules-right = pdflatex latexmk vm xkeyboard cpu system-cpu-frequency memory wlan eth battery temperature pulseaudio updates-arch-aur date
 ;modules-right = backlight-acpi cpu memory swap battery filesystem xkeyboard volume date powermenu
 
 tray-position = right
@@ -92,7 +94,7 @@ label = %title:0:30:...%
 type = internal/xkeyboard
 blacklist-0 = num lock
 
-format-prefix = " "
+; format-prefix = "🖮"
 format-prefix-foreground = ${colors.foreground-alt}
 format-prefix-underline = ${colors.secondary}
 
@@ -176,6 +178,7 @@ bar-empty-foreground = ${colors.foreground-alt}
 
 [module/backlight-acpi]
 inherit = module/xbacklight
+format-underline = #4bffdc
 type = internal/backlight
 card = intel_backlight
 
@@ -184,11 +187,13 @@ card = intel_backlight
 type = internal/backlight
 ; Use the following command to list available cards:
 ; $ ls -1 /sys/class/backlight/
-card = intel_backlight
+; card = intel_backlight
+card = acpi_video0
 
-format = <ramp> <label>
+; format = <ramp> <label>
+format =  <label>
 
-label = %percentage%%
+label =  🌓%percentage%%
 
 ; Only applies if <ramp> is used
 ramp-0 = 🌕
@@ -201,7 +206,8 @@ ramp-4 = 🌑
 [module/cpu]
 type = internal/cpu
 interval = 1
-format-prefix = " "
+; format-prefix = "💻"
+;  "
 format-prefix-foreground = ${colors.foreground-alt}
 format-underline = #f90000
 ; label = %percentage:2%%
@@ -221,14 +227,17 @@ ramp-coreload-7 = █
 
 [module/system-cpu-frequency]
 type = custom/script
+format-underline = #0a6cf5
 exec = ~/.config/polybar/scripts/system-cpu-frequency.sh
 interval = 2
 ; label = %{F#ff0000}%output%
+click-left = sudo cpupower frequency-set -g powersave &
+click-right = sudo cpupower frequency-set -g performance &
 
 [module/memory]
 type = internal/memory
 interval = 3
-format-prefix = " "
+; format-prefix = " "
 format-prefix-foreground = ${colors.foreground-alt}
 format-underline = #4bffdc
 
@@ -236,7 +245,7 @@ format-underline = #4bffdc
 label = %percentage_used%% (%gb_used%)
 ;%gb_free%
 ;format = <bar-used>
-format = <label> <ramp-used>
+format = <ramp-used> <label>
 
 ; Only applies if <bar-used> is used
 bar-used-indicator =
@@ -274,10 +283,12 @@ type = internal/network
 interface = wlp2s0
 interval = 3.0
 
-format-connected = <ramp-signal> <label-connected>
+format-connected = <label-connected>
+
 format-connected-underline = #9f78e1
-;label-connected = [%essid%] %local_ip% [u %upspeed% / d %downspeed%]
-label-connected = %local_ip%@%essid%
+; label-connected = [%essid%] %local_ip% [u %upspeed% / d %downspeed%]
+label-connected = %local_ip%@%essid:0:5%⬆%upspeed%⬇%downspeed%
+
 
 ;format-disconnected =
 ;format-disconnected = <label-disconnected>
@@ -285,11 +296,7 @@ label-connected = %local_ip%@%essid%
 ;label-disconnected = %ifname% disconnected
 ;label-disconnected-foreground = ${colors.foreground-alt}
 
-ramp-signal-0 = 
-ramp-signal-1 = 
-ramp-signal-2 = 
-ramp-signal-3 = 
-ramp-signal-4 = 
+
 ramp-signal-foreground = ${colors.foreground-alt}
 
 [module/eth]
@@ -319,20 +326,90 @@ date-alt =
 time = %H:%M:%S
 time-alt = %H:%M
 
-format-prefix = 
+; format-prefix = 
 format-prefix-foreground = ${colors.foreground-alt}
 format-underline = #0a6cf5
 
 label = %date% %time%
 
+
+[module/pulseaudio]
+type = internal/pulseaudio
+format-volume-underline = #f90000
+
+; Sink to be used, if it exists (find using `pacmd list-sinks`, name field)
+; If not, uses default sink
+; sink = alsa_output.pci-0000_12_00.3.analog-stereo
+
+; Use PA_VOLUME_UI_MAX (~153%) if true, or PA_VOLUME_NORM (100%) if false
+; Default: true
+use-ui-max = true
+
+; Interval for volume increase/decrease (in percent points)
+; Default: 5
+interval = 5
+; Available tags:
+;   <label-volume> (default)
+;   <ramp-volume>
+;   <bar-volume>
+; format-volume = 🔉<bar-volume>
+format-volume = 🔉 <label-volume>
+
+; Available tags:
+;   <label-muted> (default)
+;   <ramp-volume>
+;   <bar-volume>
+;format-muted = <label-muted>
+
+; Available tokens:
+;   %percentage% (default)
+;   %decibels% (unreleased)
+;label-volume = %percentage%%
+
+; Available tokens:
+;   %percentage% (default)
+;   %decibels% (unreleased)
+label-muted = 🔇 muted
+label-muted-foreground = #666
+
+; Only applies if <ramp-volume> is used
+ramp-volume-0 = 🔈
+ramp-volume-1 = 🔉
+ramp-volume-2 = 🔊
+
+; Right and Middle click (unreleased)
+click-right = pavucontrol &
+; click-middle =
+;
+;
+
+bar-volume-width = 6
+bar-volume-foreground-0 = #55aa55
+bar-volume-foreground-1 = #55aa55
+bar-volume-foreground-2 = #55aa55
+bar-volume-foreground-3 = #55aa55
+bar-volume-foreground-4 = #55aa55
+bar-volume-foreground-5 = #f5a70a
+bar-volume-foreground-6 = #ff5555
+bar-volume-gradient = false
+bar-volume-indicator = |
+bar-volume-indicator-font = 2
+bar-volume-fill = ─
+bar-volume-fill-font = 2
+bar-volume-empty = ─
+bar-volume-empty-font = 2
+bar-volume-empty-foreground = ${colors.foreground-alt}
+
+
+
 [module/volume]
 type = internal/volume
 
 format-volume = <label-volume> <bar-volume>
-label-volume = 
+label-volume = wtf
 label-volume-foreground = ${root.foreground}
 
-format-muted-prefix = " "
+; format-muted-prefix = " "
 format-muted-foreground = ${colors.foreground-alt}
 label-muted = sound muted
 label-muted-foreground = #ff0000
@@ -358,24 +435,30 @@ bar-volume-empty-foreground = ${colors.foreground-alt}
 type = internal/battery
 battery = BAT0
 adapter = AC
-full-at = 98
+full-at = 85
+
+; format-full-prefix = " "
+label-full = %percentage_raw%%
+format-full-prefix-foreground = ${colors.foreground-alt}
+format-full-underline = ${self.format-charging-underline}
 
 format-charging = <ramp-capacity> <label-charging>
 format-charging-underline = #ffb52a
-label-charging = %percentage%%++ (~%time%)
+; label-charging = %percentage%%++ (~%time%)
+label-charging = %percentage%%++
 
 format-discharging = <ramp-capacity> <label-discharging>
 format-discharging-underline = ${self.format-charging-underline}
 label-discharging = %percentage%% (~%time%)
 
-format-full-prefix = " "
-format-full-prefix-foreground = ${colors.foreground-alt}
-format-full-underline = ${self.format-charging-underline}
 
 ramp-capacity-0 = WARN!
 ramp-capacity-0-foreground = #ffffff
 ramp-capacity-0-background = #de0037
-ramp-capacity-1 = ▂
+ramp-capacity-1 = YOO!
+ramp-capacity-1-foreground = #ffffff
+ramp-capacity-1-background = #FF7400
+; ramp-capacity-1 = ▂
 ramp-capacity-2 = ▃
 ramp-capacity-3 = ▄
 ramp-capacity-4 = ▅
@@ -424,7 +507,7 @@ expand-right = true
 
 format-spacing = 1
 
-label-open = 
+; label-open = 
 label-open-foreground = ${colors.secondary}
 label-close =  cancel
 label-close-foreground = ${colors.secondary}
@@ -471,7 +554,7 @@ format-underline = #268bd2
 [module/updates-arch-aur]
 type = custom/script
 exec = ~/.config/polybar/scripts/archupdates.sh
-label = %{F#ff0000}%output%
+label = %{F#ff0000}🍸%output%
 interval = 600
 
 [settings]

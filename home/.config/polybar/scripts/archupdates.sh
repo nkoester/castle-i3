@@ -10,7 +10,7 @@ fi
 
 
 if [ "$updates" -gt 0 ]; then
-    echo " ℹ️ $updates"
+    echo "$updates"
 else
     echo ""
 fi
