@@ -27,6 +27,7 @@ font pango:DejaVu Sans Mono 10
 floating_modifier $mod
 
 # start a terminal
+# bindsym $mod+Return exec /usr/bin/termit
 bindsym $mod+Return exec i3-sensible-terminal
 
 # kill focused window
@@ -309,17 +310,19 @@ bindsym $mod+p exec "$HOME/local/bin/passmenu --type -nb black -nf white -sb bla
 bindsym $mod+Shift+p exec "$HOME/local/bin/passmenu --type --slow -nb black -nf white -sb black -sf orange -b"
 exec /usr/bin/blueberry-tray
 
-set $mode_cpu_governor CPU governor setting: (p) performance, wow! (o) powersave
+set $mode_cpu_governor CPU governor setting: (p) performance, wow! (o) powersave (d) ondemand
 mode "$mode_cpu_governor" {
     # works for: x230
     bindsym p exec --no-startup-id sudo cpupower frequency-set -g performance, mode "default"
     bindsym o exec --no-startup-id sudo cpupower frequency-set -g powersave, mode "default"
+    bindsym d exec --no-startup-id sudo cpupower frequency-set -g ondemand, mode "default"
     # back to normal: Enter or Escape
     bindsym Return mode "default"
     bindsym Escape mode "default"
 }
+bindsym $mod+g mode "$mode_cpu_governor"
 
-bindsym $mod+u mode "$mode_parmigiano_nfs"
+
 set $mode_parmigiano_nfs Handle parmigiano NFS paths: (m) mount, (r) remount (u) umount
 mode "$mode_parmigiano_nfs" {
     # works for: x230
@@ -330,7 +333,24 @@ mode "$mode_parmigiano_nfs" {
     bindsym Return mode "default"
     bindsym Escape mode "default"
 }
-bindsym $mod+g mode "$mode_cpu_governor"
+bindsym $mod+u mode "$mode_parmigiano_nfs"
+
+
+
+
+
+set $mode_runstuff Run script: (w) wiki (h) hibernate (s) suspend
+mode "$mode_runstuff" {
+    # works for: x230
+    bindsym w exec --no-startup-id termite -e "tmux new-session -A -s wiki 'nvim /home/nkoester/private/vimwiki/index.wiki'", mode "default"
+    bindsym h exec --no-startup-id termite -e "systemctl hibernate -i", mode "default"
+    bindsym s exec --no-startup-id termite -e "/home/nkoester/local/bin/locksuspend.sh", mode "default"
+
+    # back to normal: Enter or Escape
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
+bindsym $mod+$alt+space mode "$mode_runstuff"
 
 
 ###
@@ -441,6 +461,10 @@ for_window [window_role="task_dialog"] floating enable
 for_window [class="^XCalc$"] floating enable
 for_window [class="^Galculator$"] floating enable
 for_window [class="^Steam$"] floating enable; border none
+
+for_window [class="zoom"] floating enable; border none
+
+
 
 for_window [class="Pavucontrol" instance="pavucontrol" title="Volume Control"] floating enable
 for_window [class="Blueman-manager" instance="blueman-manager" title="Bluetooth Devices"] floating enable

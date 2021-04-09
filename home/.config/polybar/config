@@ -43,11 +43,11 @@ padding-right = 0
 module-margin-left = 0
 module-margin-right = 1
 
-font-0 = fixed:pixelsize=10;1
+font-0 = fixed:pixelsize=9;2
 font-1 = unifont:fontformat=truetype:size=8:antialias=true;0
-ont-2 = Siji:pixelsize=10;1
+; font-2 = Siji:pixelsize=10;1
 ; font-2 = Wuncon siji:pixelsize=10;1
- font-2 = "Noto Sans Symbols2:size=10;1"
+font-2 = "Noto Sans Symbols2:size=9;1"
 
 modules-left = i3
 modules-center =
@@ -55,7 +55,7 @@ modules-center =
 modules-right = pdflatex latexmk vm xkeyboard cpu system-cpu-frequency memory wlan eth battery temperature pulseaudio updates-arch-aur date
 
 tray-position = right
-tray-padding = 10
+tray-padding = 0
 ; tray-transparent = true
 tray-background = ${colors.background}
 
@@ -101,7 +101,7 @@ format-prefix-underline = ${colors.secondary}
 label-layout = %layout%
 label-layout-underline = ${colors.secondary}
 
-label-indicator-padding = 2
+label-indicator-padding = 1
 label-indicator-margin = 1
 label-indicator-background = ${colors.secondary}
 label-indicator-underline = ${colors.secondary}
@@ -152,7 +152,7 @@ label-visible-padding = ${self.label-focused-padding}
 ; urgent = Workspace with urgency hint set
 label-urgent = %name%
 label-urgent-background = ${colors.alert}
-label-urgent-padding = 2
+label-urgent-padding = 1
 
 
 [module/xbacklight]
